@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { 
   X, MapPin, Calendar, Phone, CreditCard, Compass, ExternalLink, 
-  Copy, Check, Navigation, Info, Award, Train, Bus
+  Copy, Check, Navigation, Info, Award, Train, Bus, Sparkles
 } from "lucide-react";
 import { FestivalItem } from "../types";
 import { cleanTitle } from "../utils/helpers";
 import { motion, AnimatePresence } from "motion/react";
+import { TravelPlannerModal } from "./TravelPlannerModal";
 
 interface FestivalDetailsProps {
   festival: FestivalItem | null;
@@ -18,6 +19,7 @@ export const FestivalDetails: React.FC<FestivalDetailsProps> = ({
 }) => {
   const [copiedAddress, setCopiedAddress] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [isPlannerOpen, setIsPlannerOpen] = useState(false);
 
   if (!festival) {
     return (
@@ -240,6 +242,15 @@ export const FestivalDetails: React.FC<FestivalDetailsProps> = ({
 
       {/* Action CTA Buttons in footer (Fixed bottom) */}
       <div className="p-5 border-t border-slate-200 bg-slate-50/80 flex flex-col sm:flex-row gap-3 flex-shrink-0">
+        {/* 여행계획 세우기 AI Button */}
+        <button
+          onClick={() => setIsPlannerOpen(true)}
+          className="flex-1 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs uppercase py-3.5 px-5 rounded-full shadow-sm transition-all hover:scale-[1.01] cursor-pointer"
+        >
+          <Sparkles className="w-4 h-4" />
+          여행계획 세우기 (AI)
+        </button>
+
         {/* Directions Search */}
         <a
           href={mapSearchUrl}
@@ -271,6 +282,13 @@ export const FestivalDetails: React.FC<FestivalDetailsProps> = ({
           </button>
         )}
       </div>
+
+      {/* AI Travel Planner Recommendation Modal Overlay */}
+      <TravelPlannerModal
+        isOpen={isPlannerOpen}
+        onClose={() => setIsPlannerOpen(false)}
+        festival={festival}
+      />
     </div>
   );
 };

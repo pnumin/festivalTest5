@@ -3,6 +3,7 @@ import path from "path";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import festivalsHandler from "./api/festivals";
+import recommendationsHandler from "./api/recommendations";
 
 // Load environment variables
 dotenv.config();
@@ -21,6 +22,19 @@ app.get("/api/festivals", async (req, res) => {
     console.error("[Server Error Delegation]", error.message);
     res.status(500).json({
       error: "내부 대항 중 오류가 발생했습니다.",
+      details: error.message
+    });
+  }
+});
+
+// AI Travel Recommendations endpoint (Delegated to Vercel Serverless Handler)
+app.post("/api/recommendations", async (req, res) => {
+  try {
+    await recommendationsHandler(req, res);
+  } catch (error: any) {
+    console.error("[Recommendations error delegation]", error.message);
+    res.status(500).json({
+      error: "AI 추천 생성 중 오류가 발생했습니다.",
       details: error.message
     });
   }
