@@ -1,0 +1,6 @@
+{
+  "name": "Busan Festival Guide",
+  "description": "부산의 다양하고 역동적인 축제 정보를 한눈에 보고 상세 정보를 탐색할 수 있는 가이드 서비스입니다.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
